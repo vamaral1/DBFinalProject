@@ -1,9 +1,10 @@
 #DBFinalProject
 
-#Authors:
+##Authors:
 Victor Amaral
 Edward Schembor
 
+##Setting up the database
 The MySQL database is stored in an Amazon EC2 instance at ec2-52-23-154-168.compute-1.amazonaws.com
 A MySQL account has already been created on the instance but if needed, this is how to do it:
 
