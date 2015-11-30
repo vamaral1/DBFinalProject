@@ -2,6 +2,7 @@
 
 ##Authors:
 Victor Amaral
+
 Edward Schembor
 
 ##Setting up the database
