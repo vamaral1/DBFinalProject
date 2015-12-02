@@ -11,7 +11,7 @@ cur.execute('USE twitterdata;')
 
 #create tables
 cur.execute('''CREATE TABLE IF NOT EXISTS Users(
-                UserId INT,
+                UserId BIGINT,
                 ScreenName VARCHAR(25),
                 Name VARCHAR(25),
                 NumFollowers INT,
@@ -23,8 +23,8 @@ cur.execute('''CREATE TABLE IF NOT EXISTS Users(
             ''')
 
 cur.execute('''CREATE TABLE IF NOT EXISTS Tweets(
-                TweetId INT,
-                UserId INT,
+                TweetId BIGINT,
+                UserId BIGINT,
                 Time BIGINT,
                 Content VARCHAR(100),
                 Lat VARCHAR(25),
@@ -34,38 +34,38 @@ cur.execute('''CREATE TABLE IF NOT EXISTS Tweets(
             ''')
 
 cur.execute('''CREATE TABLE IF NOT EXISTS Favorites(
-                TweetId INT,
-                UserId INT,
+                TweetId BIGINT,
+                UserId BIGINT,
                 Time BIGINT,
                 PRIMARY KEY (TweetId, UserId)
                 );
             ''')
 
 cur.execute('''CREATE TABLE IF NOT EXISTS Followers(
-                WhoIsFollowedId INT,
-                WhoFollowsId INT,
+                WhoIsFollowedId BIGINT,
+                WhoFollowsId BIGINT,
                 PRIMARY KEY (WhoIsFollowedId, WhoFollowsId)
                 );
             ''')
 
 cur.execute('''CREATE TABLE IF NOT EXISTS Retweets(
-                TweetId INT,
-                RetweeterId INT,
+                TweetId BIGINT,
+                RetweeterId BIGINT,
                 Time BIGINT,
                 PRIMARY KEY (TweetId, RetweeterId)
                 );
             ''')
 
 cur.execute('''CREATE TABLE IF NOT EXISTS Hashtags(
-                TweetId INT,
+                TweetId BIGINT,
                 Hashtag VARCHAR(50),
                 PRIMARY KEY (TweetId)
                 );
             ''')
 
 cur.execute('''CREATE TABLE IF NOT EXISTS Media(
-				MediaId INT,
-                TweetId INT,
+				MediaId BIGINT,
+                TweetId BIGINT,
                 Link VARCHAR(100),
                 Type VARCHAR(25),
                 Height INT,
@@ -75,9 +75,9 @@ cur.execute('''CREATE TABLE IF NOT EXISTS Media(
             ''')
 
 cur.execute('''CREATE TABLE IF NOT EXISTS Mentions(
-                TweetId INT,
-                WhoIsMentionedId INT,
-                WhoMentions INT,
+                TweetId BIGINT,
+                WhoIsMentionedId BIGINT,
+                WhoMentions BIGINT,
                 PRIMARY KEY (TweetId)
                 );
             ''')
