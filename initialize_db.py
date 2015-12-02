@@ -1,6 +1,6 @@
 import MySQLdb as db
 
-conn = db.connect(host = '127.0.0.1', user="root", passwd="root")
+conn = db.connect(host = 'localhost', user="dbproject", passwd="edvictor")
 cur = conn.cursor()
 
 #create database if it doesn't exist
