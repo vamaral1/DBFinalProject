@@ -4,6 +4,7 @@ import re
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
+import tweepy
 import json
 
 #Variables that contains the user credentials to access Twitter API 
@@ -19,18 +20,15 @@ cur = conn.cursor()
 #Select 'twitterdata' as the database to use
 cur.execute('USE twitterdata;')
 
-#utf8mb4 = re.compile(u'[U00010000-U0010ffff]')
-
 #This is a basic listener that just prints received tweets to stdout.
 class StdOutListener(StreamListener):
 
     def on_data(self, stream): 
-        #data = utf8mb4.sub(u'', stream.json)
         data = json.loads(stream)
+        print stream
         
         # USER TABLE
         userId = data['user']['id']                      #user id
-        print userId
         userScreen = data['user']['screen_name']        #user screenname
         userName = data['user']['name']                  #user name
         userFollowers = data['user']['followers_count']  #user followers
@@ -44,13 +42,28 @@ class StdOutListener(StreamListener):
         conn.commit()
 
         # TWEETS TABLE
-        print data['id']                      #tweet id
-        print data['user']['id']              #user id
-        print data['created_at']              #tweet creation time
-        print data['text']
-        print data['coordinates']
+        tweetId = data['id']                      #tweet id
+        tweetCreatedAt = data['created_at']       #tweet creation time
+        tweetText = data['text']
+        #print data['coordinates']   #TODO - coordinates
 
-        print "\n"
+        # FOLLOWERS TABLE
+        #print "FOLLOWERS: "
+        #for follower in tweepy.Cursor(api.followers, screen_name=userScreen).items():
+        #    followerId = follower.id
+        #    cur.execute('''INSERT INTO Followers VALUES (%s, %s);''', (userId, followerId))
+        #    conn.commit()
+            # TODO - put this user's data into user table
+
+        # HASHTAGS TABLE TODO - fix json issue
+        hashTagList = data['entities']['hashtags']
+        print "Hashtags: "
+        for hashTagEntity in hashTagList:
+            print str(hashTagEntity)
+            #hashtagJson = json.loads(str(hashTagEntity))
+            #print hashtagJson['text']
+        print "EndHashTags"
+
 
         return True
 
@@ -64,7 +77,8 @@ if __name__ == '__main__':
     l = StdOutListener()
     auth = OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
+    api = tweepy.API(auth)
     stream = Stream(auth, l)
 
     #This line filter Twitter Streams to capture data by the keywords: 'python', 'javascript', 'ruby'
-    stream.filter(track=['kobe'])
+    stream.filter(track=['nba'])
