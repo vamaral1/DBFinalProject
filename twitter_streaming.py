@@ -20,6 +20,9 @@ cur = conn.cursor()
 #Select 'twitterdata' as the database to use
 cur.execute('USE twitterdata;')
 
+#Setup hashtag regex
+hashtagPattern = re.compile('([A-Z])\w+')
+
 #This is a basic listener that just prints received tweets to stdout.
 class StdOutListener(StreamListener):
 
@@ -55,15 +58,13 @@ class StdOutListener(StreamListener):
         #    conn.commit()
             # TODO - put this user's data into user table
 
-        # HASHTAGS TABLE TODO - fix json issue
+        # HASHTAGS TABLE
         hashTagList = data['entities']['hashtags']
-        print "Hashtags: "
         for hashTagEntity in hashTagList:
-            print str(hashTagEntity)
-            #hashtagJson = json.loads(str(hashTagEntity))
-            #print hashtagJson['text']
-        print "EndHashTags"
-
+            m = hashtagPattern.search(str(hashTagEntity))
+            if m is not None:
+                cur.execute('''INSERT INTO Hashtags VALUES (%s, %s);''', (tweetId, m.group()))
+                conn.commit()
 
         return True
 
