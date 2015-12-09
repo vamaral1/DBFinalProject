@@ -28,9 +28,6 @@ def get_sentiment(dict_data):
     # pass tweet into TextBlob
     tweet = TextBlob(dict_data["text"])
 
-    # output sentiment polarity
-    print tweet.sentiment.polarity
-
     # determine if sentiment is positive, negative, or neutral
     if tweet.sentiment.polarity < 0:
         sentiment = "negative"
@@ -38,6 +35,7 @@ def get_sentiment(dict_data):
         sentiment = "neutral"
     else:
         sentiment = "positive"
+        
     return sentiment
 
 #This is a basic listener that just prints received tweets to stdout.
