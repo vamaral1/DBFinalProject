@@ -75,7 +75,7 @@ class StdOutListener(StreamListener):
 
         # MEDIA TABLE
         print "\n\n\n\nMEDIA=======================\n\n"
-        print data['entities']['media']
+        #print data['entities']['media']
         #print data['entities']['media'][1]
 
         return True
