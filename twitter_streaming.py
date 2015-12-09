@@ -39,7 +39,7 @@ def get_sentiment(dict_data):
     else:
         sentiment = "positive"
     return sentiment
-        
+
 #This is a basic listener that just prints received tweets to stdout.
 class StdOutListener(StreamListener):
 
@@ -71,7 +71,7 @@ class StdOutListener(StreamListener):
         tweetLatitude = "temp"
         tweetLongitude = "tmp"
         tweetSentiment = get_sentiment(data)
-        cur.execute('''INSERT INTO Tweets VALUES (%s, %s, %s, %s, %s, %s, %s);''',(tweetId, userId, tweetCreatedAt, tweetText, tweetLatitude, tweetLongitude, tweetSentiment))
+        cur.execute('''INSERT INTO Tweets VALUES (%s, %s, %s, %s, %s, %s, %s);''',(tweetId, userId, tweetCreatedAt, tweetText, tweetSentiment, tweetLatitude, tweetLongitude))
         conn.commit()
 
         # FOLLOWERS TABLE
