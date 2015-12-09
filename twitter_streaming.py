@@ -24,6 +24,22 @@ cur.execute('USE twitterdata;')
 #Setup hashtag regex
 hashtagPattern = re.compile('([A-Z])\w+')
 
+def get_sentiment(dict_data):
+    # pass tweet into TextBlob
+    tweet = TextBlob(dict_data["text"])
+
+    # output sentiment polarity
+    print tweet.sentiment.polarity
+
+    # determine if sentiment is positive, negative, or neutral
+    if tweet.sentiment.polarity < 0:
+        sentiment = "negative"
+    elif tweet.sentiment.polarity == 0:
+        sentiment = "neutral"
+    else:
+        sentiment = "positive"
+    return sentiment
+        
 #This is a basic listener that just prints received tweets to stdout.
 class StdOutListener(StreamListener):
 
@@ -80,22 +96,6 @@ class StdOutListener(StreamListener):
         #print data['entities']['media'][1]
 
         return True
-
-    def get_sentiment(dict_data):
-        # pass tweet into TextBlob
-        tweet = TextBlob(dict_data["text"])
-
-        # output sentiment polarity
-        print tweet.sentiment.polarity
-
-        # determine if sentiment is positive, negative, or neutral
-        if tweet.sentiment.polarity < 0:
-            sentiment = "negative"
-        elif tweet.sentiment.polarity == 0:
-            sentiment = "neutral"
-        else:
-            sentiment = "positive"
-        return sentiment
 
     def on_error(self, status):
         print status
