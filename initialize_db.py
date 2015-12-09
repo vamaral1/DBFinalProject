@@ -26,7 +26,7 @@ cur.execute('''CREATE TABLE IF NOT EXISTS Tweets(
                 TweetId BIGINT,
                 UserId BIGINT,
                 Time BIGINT,
-                Content VARCHAR(100),
+                Content VARCHAR(5000),
                 Lat VARCHAR(25),
                 Lon VARCHAR(25),
                 PRIMARY KEY (TweetId, UserId)
