@@ -4,6 +4,7 @@ import re
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
 from tweepy import Stream
+from textblob import TextBlob
 import tweepy
 import json
 
@@ -53,7 +54,7 @@ class StdOutListener(StreamListener):
         #print data['coordinates']   #TODO - coordinates
         tweetLatitude = "temp"
         tweetLongitude = "tmp"
-        tweetSentiment = "tmp"
+        tweetSentiment = get_sentiment(data)
         cur.execute('''INSERT INTO Tweets VALUES (%s, %s, %s, %s, %s, %s, %s);''',(tweetId, userId, tweetCreatedAt, tweetText, tweetLatitude, tweetLongitude, tweetSentiment))
         conn.commit()
 
@@ -79,6 +80,22 @@ class StdOutListener(StreamListener):
         #print data['entities']['media'][1]
 
         return True
+
+    def get_sentiment(dict_data):
+        # pass tweet into TextBlob
+        tweet = TextBlob(dict_data["text"])
+
+        # output sentiment polarity
+        print tweet.sentiment.polarity
+
+        # determine if sentiment is positive, negative, or neutral
+        if tweet.sentiment.polarity < 0:
+            sentiment = "negative"
+        elif tweet.sentiment.polarity == 0:
+            sentiment = "neutral"
+        else:
+            sentiment = "positive"
+        return sentiment
 
     def on_error(self, status):
         print status
