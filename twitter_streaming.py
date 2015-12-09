@@ -31,24 +31,31 @@ class StdOutListener(StreamListener):
         print stream
         
         # USER TABLE
-        userId = data['user']['id']                      #user id
+        userId = data['user']['id']                     #user id
         userScreen = data['user']['screen_name']        #user screenname
-        userName = data['user']['name']                  #user name
-        userFollowers = data['user']['followers_count']  #user followers
-        userFollowing = data['user']['friends_count']    #user following
-        userStatusCount = data['user']['statuses_count'] #user tweets
-        userTimeZone = data['user']['time_zone']         #user time zone
-        userLanguage = data['user']['lang']              #user language
+        userName = data['user']['name']                 #user name
+        userFollowers = data['user']['followers_count'] #user followers
+        userFollowing = data['user']['friends_count']   #user following
+        userStatusCount = data['user']['statuses_count']#user tweets
+        userTimeZone = data['user']['time_zone']        #user time zone
+        userLanguage = data['user']['lang']             #user language
 
         # Insert data from the tweet into the User table
-        cur.execute('''INSERT INTO Users VALUES (%s, %s, %s, %s, %s, %s, %s);''', (userId, userScreen, userName, userFollowers, userFollowing, userStatusCount, userLanguage))
-        conn.commit()
+        #cur.execute('''SELECT * FROM Users WHERE UserId = %s;''', userId)
+        if(not cur.fetchone()):
+            cur.execute('''INSERT INTO Users VALUES (%s, %s, %s, %s, %s, %s, %s);''', (userId, userScreen, userName, userFollowers, userFollowing, userStatusCount, userLanguage))
+            conn.commit()
 
         # TWEETS TABLE
         tweetId = data['id']                      #tweet id
         tweetCreatedAt = data['created_at']       #tweet creation time
         tweetText = data['text']
         #print data['coordinates']   #TODO - coordinates
+        tweetLatitude = "temp"
+        tweetLongitude = "tmp"
+        tweetSentiment = "tmp"
+        cur.execute('''INSERT INTO Tweets VALUES (%s, %s, %s, %s, %s, %s, %s);''',(tweetId, userId, tweetCreatedAt, tweetText, tweetLatitude, tweetLongitude, tweetSentiment))
+        conn.commit()
 
         # FOLLOWERS TABLE
         #print "FOLLOWERS: "
@@ -66,6 +73,11 @@ class StdOutListener(StreamListener):
                 cur.execute('''INSERT INTO Hashtags VALUES (%s, %s);''', (tweetId, m.group()))
                 conn.commit()
 
+        # MEDIA TABLE
+        print "\n\n\n\nMEDIA=======================\n\n"
+        print data['entities']['media']
+        #print data['entities']['media'][1]
+
         return True
 
     def on_error(self, status):
@@ -81,5 +93,4 @@ if __name__ == '__main__':
     api = tweepy.API(auth)
     stream = Stream(auth, l)
 
-    #This line filter Twitter Streams to capture data by the keywords: 'python', 'javascript', 'ruby'
-    stream.filter(track=['nba'])
+    stream.filter(track=['pacers'])
