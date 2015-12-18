@@ -40,8 +40,8 @@ cur.execute('''CREATE TABLE IF NOT EXISTS Favorites(
             ''')
 
 cur.execute('''CREATE TABLE IF NOT EXISTS Followers(
-                WhoIsFollowedId BIGINT,
-                WhoFollowsId BIGINT
+                WhoIsFollowed BIGINT,
+                WhoFollows BIGINT
                 );
             ''')
 
@@ -70,7 +70,7 @@ cur.execute('''CREATE TABLE IF NOT EXISTS Media(
 
 cur.execute('''CREATE TABLE IF NOT EXISTS Mentions(
                 TweetId BIGINT,
-                WhoIsMentionedId BIGINT,
+                WhoIsMentioned BIGINT,
                 WhoMentions BIGINT
                 );
             ''')
