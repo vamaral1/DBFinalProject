@@ -17,8 +17,7 @@ cur.execute('''CREATE TABLE IF NOT EXISTS Users(
                 NumFollowers INT,
                 NumFollowing INT,
                 NumPosts INT,
-                Language VARCHAR(25),
-                PRIMARY KEY (UserId)
+                Language VARCHAR(25)
                 );
             ''')
 
@@ -29,38 +28,33 @@ cur.execute('''CREATE TABLE IF NOT EXISTS Tweets(
                 Content VARCHAR(5000),
                 Sentiment VARCHAR(25),
                 Lat VARCHAR(25),
-                Lon VARCHAR(25),
-                PRIMARY KEY (TweetId, UserId)
+                Lon VARCHAR(25)
                 );
             ''')
 
 cur.execute('''CREATE TABLE IF NOT EXISTS Favorites(
                 TweetId BIGINT,
                 UserId BIGINT,
-                Time BIGINT,
-                PRIMARY KEY (TweetId, UserId)
+                Time BIGINT
                 );
             ''')
 
 cur.execute('''CREATE TABLE IF NOT EXISTS Followers(
                 WhoIsFollowedId BIGINT,
-                WhoFollowsId BIGINT,
-                PRIMARY KEY (WhoIsFollowedId, WhoFollowsId)
+                WhoFollowsId BIGINT
                 );
             ''')
 
 cur.execute('''CREATE TABLE IF NOT EXISTS Retweets(
                 TweetId BIGINT,
                 RetweeterId BIGINT,
-                Time BIGINT,
-                PRIMARY KEY (TweetId, RetweeterId)
+                Time BIGINT
                 );
             ''')
 
 cur.execute('''CREATE TABLE IF NOT EXISTS Hashtags(
                 TweetId BIGINT,
-                Hashtag VARCHAR(50),
-                PRIMARY KEY (TweetId)
+                Hashtag VARCHAR(50)
                 );
             ''')
 
@@ -70,16 +64,14 @@ cur.execute('''CREATE TABLE IF NOT EXISTS Media(
                 Link VARCHAR(100),
                 Type VARCHAR(25),
                 Height INT,
-                Width INT,
-                PRIMARY KEY (MediaId,TweetId)
+                Width INT
                 );
             ''')
 
 cur.execute('''CREATE TABLE IF NOT EXISTS Mentions(
                 TweetId BIGINT,
                 WhoIsMentionedId BIGINT,
-                WhoMentions BIGINT,
-                PRIMARY KEY (TweetId)
+                WhoMentions BIGINT
                 );
             ''')
 conn.close()
