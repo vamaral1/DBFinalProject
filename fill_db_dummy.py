@@ -16,7 +16,7 @@ cur.execute('''INSERT INTO Users VALUES
 	''')
 
 cur.execute('''INSERT INTO Tweets VALUES
-	(8950345, 12345, 53256734, "Testing tweet tweet", "-74.0005941", "40.7122784")
+	(8950345, 12345, 53256734, "Testing tweet tweet", "positive", "-74.0005941", "40.7122784")
 	''')
 
 cur.execute('''INSERT INTO Favorites VALUES

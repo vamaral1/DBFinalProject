@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Twitter Streaming App</title>
+
+   
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <script src="../static/js/jquery-1.11.2.js"></script>
+    <script src="../static/js/tweetsHashtag.js"></script>
+   
+  </head>
+
+  <body>
+
+    <div class="container">
+
+      <div class="get tweets given hashtag">
+        <h3> Look up tweets with the given hashtag: #</h3>
+        <form class="form-ht">
+        <label for="inputName" class="sr-only">Hashtag</label>
+        <input type="name" name="inputName" id="inputName" class="form-control" placeholder="Hashtag" required autofocus>
+        <button id="submit" class="btn btn-lg btn-primary btn-block" type="button" href="/tweetsHashtag">Submit</button>
+      </div>
+
+      <footer class="footer">
+        <p>&copy; Victor Amaral, Ed Schembor</p>
+      </footer>
+
+    </div>
+  </body>
+</html>
+
