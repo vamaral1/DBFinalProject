@@ -1,5 +1,6 @@
 import MySQLdb as db
 import re
+import time
 
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
@@ -43,7 +44,7 @@ class StdOutListener(StreamListener):
 
     def on_data(self, stream): 
         data = json.loads(stream)
-        print stream
+        #print stream
         
         # USER TABLE
         userId = data['user']['id']                     #user id
@@ -73,12 +74,12 @@ class StdOutListener(StreamListener):
         conn.commit()
 
         # FOLLOWERS TABLE
-        #print "FOLLOWERS: "
         #for follower in tweepy.Cursor(api.followers, screen_name=userScreen).items():
         #    followerId = follower.id
+        #    print followerId
         #    cur.execute('''INSERT INTO Followers VALUES (%s, %s);''', (userId, followerId))
         #    conn.commit()
-            # TODO - put this user's data into user table
+        #    time.sleep(10)
 
         # HASHTAGS TABLE
         hashTagList = data['entities']['hashtags']
@@ -89,9 +90,14 @@ class StdOutListener(StreamListener):
                 conn.commit()
 
         # MEDIA TABLE
-        print "\n\n\n\nMEDIA=======================\n\n"
-        #print data['entities']['media']
-        #print data['entities']['media'][1]
+        mediaId = data['entities']['media'][0]["id_str"]
+        mediaUrl = data['entities']['media'][0]["url"]
+        mediaType = data['entities']['media'][0]["type"]
+        mediaH = data['entities']['media'][0]["sizes"]["small"]["h"]
+        mediaW = data['entities']['media'][0]["sizes"]["small"]["w"]
+        cur.execute('''INSERT INTO Media VALUES (%s, %s, %s, %s, %s, %s);''', (mediaId, tweetId, mediaUrl, mediaType, mediaH, mediaW))
+        conn.commit()
+
 
         return True
 
@@ -108,4 +114,4 @@ if __name__ == '__main__':
     api = tweepy.API(auth)
     stream = Stream(auth, l)
 
-    stream.filter(track=['pacers'])
+    stream.filter(track=['pic'])
