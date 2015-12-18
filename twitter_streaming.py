@@ -1,6 +1,7 @@
 import MySQLdb as db
 import re
 import time
+import datetime
 
 from tweepy.streaming import StreamListener
 from tweepy import OAuthHandler
@@ -24,6 +25,9 @@ cur.execute('USE twitterdata;')
 
 #Setup hashtag regex
 hashtagPattern = re.compile('([A-Z])\w+')
+
+#Get starttime
+start = datetime.datetime.now()
 
 def get_sentiment(dict_data):
     # pass tweet into TextBlob
@@ -56,8 +60,6 @@ class StdOutListener(StreamListener):
         userTimeZone = data['user']['time_zone']        #user time zone
         userLanguage = data['user']['lang']             #user language
 
-        # Insert data from the tweet into the User table
-        #cur.execute('''SELECT * FROM Users WHERE UserId = %s;''', userId)
         if(not cur.fetchone()):
             cur.execute('''INSERT INTO Users VALUES (%s, %s, %s, %s, %s, %s, %s);''', (userId, userScreen, userName, userFollowers, userFollowing, userStatusCount, userLanguage))
             conn.commit()
@@ -81,6 +83,20 @@ class StdOutListener(StreamListener):
         #    conn.commit()
         #    time.sleep(10)
 
+        # FAVORITES TABLE
+        #for favorited in tweepy.Cursor(api.favorites, screen_name=userScreen).items():
+        #    favoriteId = favorited.id
+        #    favoritedAt = favorited.created_at
+        #    cur.execute('''INSERT INTO Favorites VALUES (%s, %s, %s);''', (favoriteId, userId, favoritedAt))
+        #    conn.commit()
+    
+        # RETWEETS TABLE
+        #print "\n\n\nABOUT TO SLEEP\n\n\n"
+        #time.sleep(120)
+        #retweets = api.retweets(tweetId)
+        #print retweets
+        #time.sleep(10)
+
         # HASHTAGS TABLE
         hashTagList = data['entities']['hashtags']
         for hashTagEntity in hashTagList:
@@ -90,14 +106,22 @@ class StdOutListener(StreamListener):
                 conn.commit()
 
         # MEDIA TABLE
-        mediaId = data['entities']['media'][0]["id_str"]
-        mediaUrl = data['entities']['media'][0]["url"]
-        mediaType = data['entities']['media'][0]["type"]
-        mediaH = data['entities']['media'][0]["sizes"]["small"]["h"]
-        mediaW = data['entities']['media'][0]["sizes"]["small"]["w"]
-        cur.execute('''INSERT INTO Media VALUES (%s, %s, %s, %s, %s, %s);''', (mediaId, tweetId, mediaUrl, mediaType, mediaH, mediaW))
-        conn.commit()
+        try:
+            mediaId = data['entities']['media'][0]["id_str"]
+            mediaUrl = data['entities']['media'][0]["url"]
+            mediaType = data['entities']['media'][0]["type"]
+            mediaH = data['entities']['media'][0]["sizes"]["small"]["h"]
+            mediaW = data['entities']['media'][0]["sizes"]["small"]["w"]
+            cur.execute('''INSERT INTO Media VALUES (%s, %s, %s, %s, %s, %s);''', (mediaId, tweetId, mediaUrl, mediaType, mediaH, mediaW))
+            conn.commit()
+        except:
+            pass
 
+
+        end = datetime.datetime.now()
+        elapsed = end-start
+        if elapsed > datetime.timedelta(minutes=1):
+            sys.exit("Script time up")
 
         return True
 
@@ -114,4 +138,4 @@ if __name__ == '__main__':
     api = tweepy.API(auth)
     stream = Stream(auth, l)
 
-    stream.filter(track=['pic'])
+    stream.filter(track=['retweet'])
