@@ -6,8 +6,9 @@
 
    
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
-
+    <link rel = "stylesheet" type= "text/css" href = "//cdn.datatables.net/1.10.10/css/jquery.dataTables.min.css"/>
     <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+    <script src = "//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
     <script src="../static/js/jquery-1.11.2.js"></script>
     <script src="../static/js/tweetsHashtag.js"></script>
    
@@ -23,6 +24,19 @@
         <label for="inputName" class="sr-only">Hashtag</label>
         <input type="name" name="inputName" id="inputName" class="form-control" placeholder="Hashtag" required autofocus>
         <button id="submit" class="btn btn-lg btn-primary btn-block" type="button" href="/tweetsHashtag">Submit</button>
+<!--         <table id="tweetsHashtagTable" href="/tweetsHashtag">
+            <thead>
+                <tr>
+                    <th>TweetId</th>
+                    <th>UserId</th>
+                    <th>Time</th>
+                    <th>Content</th>
+                    <th>Sentiment</th>
+                    <th>Lat</th>
+                    <th>Lon</th>
+                </tr>
+            </thead>
+        </table> -->
       </div>
 
       <footer class="footer">
