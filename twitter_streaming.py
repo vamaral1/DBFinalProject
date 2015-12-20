@@ -48,7 +48,6 @@ class StdOutListener(StreamListener):
 
     def on_data(self, stream): 
         data = json.loads(stream)
-        #print stream
         
         # USER TABLE
         userId = data['user']['id']                     #user id
@@ -76,27 +75,24 @@ class StdOutListener(StreamListener):
         conn.commit()
 
         # FOLLOWERS TABLE
-        #for follower in tweepy.Cursor(api.followers, screen_name=userScreen).items():
-        #    followerId = follower.id
-        #    print followerId
-        #    cur.execute('''INSERT INTO Followers VALUES (%s, %s);''', (userId, followerId))
-        #    conn.commit()
-        #    time.sleep(10)
+        try:
+            for follower in tweepy.Cursor(api.followers, screen_name=userScreen).items():
+                followerId = follower.id
+                cur.execute('''INSERT INTO Followers VALUES (%s, %s);''', (userId, followerId))
+                conn.commit()
+        except:
+            pass
 
         # FAVORITES TABLE
-        #for favorited in tweepy.Cursor(api.favorites, screen_name=userScreen).items():
-        #    favoriteId = favorited.id
-        #    favoritedAt = favorited.created_at
-        #    cur.execute('''INSERT INTO Favorites VALUES (%s, %s, %s);''', (favoriteId, userId, favoritedAt))
-        #    conn.commit()
+        try:
+            for favorited in tweepy.Cursor(api.favorites, screen_name=userScreen).items():
+                favoriteId = favorited.id
+                favoritedAt = favorited.created_at
+                cur.execute('''INSERT INTO Favorites VALUES (%s, %s, %s);''', (favoriteId, userId, favoritedAt))
+                conn.commit()
+        except:
+            pass
     
-        # RETWEETS TABLE
-        #print "\n\n\nABOUT TO SLEEP\n\n\n"
-        #time.sleep(120)
-        #retweets = api.retweets(tweetId)
-        #print retweets
-        #time.sleep(10)
-
         # HASHTAGS TABLE
         hashTagList = data['entities']['hashtags']
         for hashTagEntity in hashTagList:
@@ -117,10 +113,10 @@ class StdOutListener(StreamListener):
         except:
             pass
 
-
+        # Stop if streaming has been running for longer than 3 minutes
         end = datetime.datetime.now()
         elapsed = end-start
-        if elapsed > datetime.timedelta(minutes=1):
+        if elapsed > datetime.timedelta(minutes=3):
             sys.exit("Script time up")
 
         return True

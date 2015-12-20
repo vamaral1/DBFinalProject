@@ -1,11 +1,10 @@
 while true; do
 	python twitter_streaming.py
-	#$TASK_PID=$!
-	#sleep 30
         echo "Streaming done"
-	#kill $TASK_PID
-	sleep 30
-        echo "About to kill DB"
+	sleep 600
+        python retweets.py
+        sleep 600 
+        echo "About to kill DB and restart"
 	python nuke_db.py
 	python initialize_db.py
 done
