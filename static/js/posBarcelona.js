@@ -1,24 +1,24 @@
 $(document).ready(function() {
-	var table = $('.webscaleMongo').DataTable()
+	var table = $('.posBarcelona').DataTable()
 	table.destroy()
 	$.ajax({
-		url: '/webscaleMongo',
+		url: '/posBarcelona',
 		data: $('form').serialize(),
 		type: 'POST',
 		dataType: 'json',
 		success: function(data){
-			$('.webscaleMongo').remove()
-			$("<table class='webscaleMongo' class='display' cellspacing='0' width='100%'>"
+			$('.posBarcelona').remove()
+			$("<table class='posBarcelona' class='display' cellspacing='0' width='100%'>"
 		    +"<thead>"
 		    +"<tr>"
-		    +"<th>ScreenName</th>"
+		    +"<th>Content</th>"
 		    +"</tr>"
 		    +"</thead>"
-		    +"<tbody>").appendTo('#webscaleMongoTable');		
-		    table = $('.webscaleMongo').DataTable({
+		    +"<tbody>").appendTo('#posBarcelonaTable');		
+		    table = $('.posBarcelona').DataTable({
 		    	"data": data.success,
 	    		"columns": [
-			        { "data": "ScreenName" }
+			        { "data": "Content" }
 	    		]
 			});
 			console.log(data);

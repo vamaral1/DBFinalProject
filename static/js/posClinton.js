@@ -1,14 +1,14 @@
 $(document).ready(function() {
-	var table = $('.clinton').DataTable()
+	var table = $('.posClinton').DataTable()
 	table.destroy()
 	$.ajax({
-		url: '/clinton',
+		url: '/posClinton',
 		data: $('form').serialize(),
 		type: 'POST',
 		dataType: 'json',
 		success: function(data){
-			$('.clinton').remove()
-			$("<table class='clinton' class='display' cellspacing='0' width='100%'>"
+			$('.posClinton').remove()
+			$("<table class='posClinton' class='display' cellspacing='0' width='100%'>"
 		    +"<thead>"
 		    +"<tr>"
 		    +"<th>Total</th>"
@@ -16,8 +16,8 @@ $(document).ready(function() {
 		    +"<th>PercentPositive</th>"
 		    +"</tr>"
 		    +"</thead>"
-		    +"<tbody>").appendTo('#clintonTable');		
-		    table = $('.clinton').DataTable({
+		    +"<tbody>").appendTo('#posClintonTable');		
+		    table = $('.posClinton').DataTable({
 		    	"data": data.success,
 	    		"columns": [
 			        { "data": "Total" },

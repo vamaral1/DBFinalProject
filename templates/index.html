@@ -18,7 +18,12 @@
     <script src="../static/js/userLiked.js"></script>
     <script src="../static/js/webscale.js"></script>
     <script src="../static/js/userNBA.js"></script>
-    <script src="../static/js/clinton.js"></script>
+    <script src="../static/js/posClinton.js"></script>
+    <script src="../static/js/userRank.js"></script>
+    <script src="../static/js/posSentiment.js"></script>
+    <script src="../static/js/largestPic.js"></script>
+    <script src="../static/js/hashtagNBA.js"></script>
+    <script src="../static/js/posBarcelona.js"></script>
    
   </head>
 
@@ -109,21 +114,61 @@
         </div>
       </div>
 
-<!--       <div class="clinton">
+      <div class="user rank">
+        <h4>Rank users by their followers:following ratio</h4>
+        <div id="container">
+            <div id="userRankTable" href="/userRank">
+            </div>
+        </div>
+      </div>
+
+      <div class="positive sentiment">
+        <h4>Select the 5 users with the most positive sentiment tweets</h4>
+        <div id="container">
+            <div id="posSentimentTable" href="/posSentiment">
+            </div>
+        </div>
+      </div>
+
+      <div class="largest pic">
+        <h4>Give the link to the largest media</h4>
+        <div id="container">
+            <div id="largestPicTable" href="/largestPic">
+            </div>
+        </div>
+      </div>
+
+      <div class="hashtag NBA">
+        <h4>Give all users who have tweeted a picture with the "NBA" hashtag</h4>
+        <div id="container">
+            <div id="hashtagNBATable" href="/hashtagNBA">
+            </div>
+        </div>
+      </div>
+
+      <div class="barcelona">
+        <h4>Select all positive sentiment tweets with the "Barcelona" hashtag</h4>
+        <div id="container">
+            <div id="posBarcelonaTable" href="/posBarcelona">
+            </div>
+        </div>
+      </div>
+
+      <div class="clinton">
         <h4>Find the percentage of tweets with the “Clinton” hashtag that have positive sentiment</h4>
         <div id="container">
-            <div id="clintonTable" href="/clinton">
+            <div id="posClintonTable" href="/posClinton">
             </div>
         </div>
-      </div> -->
+      </div>
 
-<!--       <div class="mongodb or webscale">
+      <div class="mongodb or webscale">
         <h4> Find the users who have their username, any tweets, or any hashtags with the "mongo db" or "webscale" text patterns in them</h4>
         <div id="container">
-            <div id="webscaleTable" href="/webscale">
+            <div id="webscaleMongoTable" href="/webscaleMongo">
             </div>
         </div>
-      </div> -->
+      </div>
 
       <footer class="footer">
         <p>&copy; Victor Amaral, Ed Schembor</p>

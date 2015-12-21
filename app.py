@@ -1,6 +1,12 @@
 from flask import Flask, render_template, request, json
 import MySQLdb as db
 import pdb
+import decimal
+
+def decimal_default(obj):
+    if isinstance(obj, decimal.Decimal):
+        return float(obj)
+    raise TypeError
 
 app = Flask(__name__)
 
@@ -180,15 +186,15 @@ def userLiked():
 				tuples.append(row)
 			return json.dumps({'success': tuples})
 		else:
-			return json.dumps({'error': "No such user"})
+			return json.dumps({'error': "No such user for userLiked"})
 	except Exception as e:
 		return json.dumps({'error':str(e)})
 	finally:
 		cur.close()
 		conn.close()
 
-@app.route("/webscale",methods=['POST','GET'])
-def webscale():
+@app.route("/webscaleMongo",methods=['POST','GET'])
+def webscaleMongo():
 	try:
 		#call stored procedure
 		conn = db.connect(host = 'localhost', user="dbproject", passwd="edvictor", db="twitterdata")
@@ -233,15 +239,15 @@ def userNBA():
 				tuples.append(row)
 			return json.dumps({'success': tuples})
 		else:
-			return json.dumps({'error': "No such content"})
+			return json.dumps({'error': "No such content for NBA"})
 	except Exception as e:
 		return json.dumps({'error':str(e)})
 	finally:
 		cur.close()
 		conn.close()
 
-@app.route("/clinton",methods=['POST','GET'])
-def clinton():
+@app.route("/posClinton",methods=['POST','GET'])
+def posClinton():
 	try:
 		#call stored procedure
 		conn = db.connect(host = 'localhost', user="dbproject", passwd="edvictor", db="twitterdata")
@@ -259,9 +265,141 @@ def clinton():
 			tuples = list()
 			for row in data:
 				tuples.append(row)
-			return json.dumps({'success': tuples})
+			return json.dumps({'success': tuples}, default=decimal_default)
 		else:
 			return json.dumps({'error': "No one likes Clinton"})
+	except Exception as e:
+		return json.dumps({'error':str(e)})
+	finally:
+		cur.close()
+		conn.close()
+
+@app.route("/userRank",methods=['POST','GET'])
+def userRank():
+	try:
+		#call stored procedure
+		conn = db.connect(host = 'localhost', user="dbproject", passwd="edvictor", db="twitterdata")
+		cur = conn.cursor(db.cursors.DictCursor)
+		cur.execute('''
+			SELECT UserId, ScreenName, NumFollowers/NumFollowing AS FollowersToFollowingRatio FROM Users ORDER BY FollowersToFollowingRatio;
+			''')
+		# If the procedure is executed successfully, then we'll commit the changes and return the success message. 
+		data = cur.fetchall()
+		if(len(data) > 0):
+			tuples = list()
+			for row in data:
+				tuples.append(row)
+			return json.dumps({'success': tuples}, default=decimal_default)
+		else:
+			return json.dumps({'error': "Something went wrong with user rank"})
+	except Exception as e:
+		return json.dumps({'error':str(e)})
+	finally:
+		cur.close()
+		conn.close()
+
+@app.route("/posSentiment",methods=['POST','GET'])
+def posSentiment():
+	try:
+		#call stored procedure
+		conn = db.connect(host = 'localhost', user="dbproject", passwd="edvictor", db="twitterdata")
+		cur = conn.cursor(db.cursors.DictCursor)
+		cur.execute('''
+			SELECT U.ScreenName, count(TweetId) as PositiveTweetCount 
+			FROM Users AS U, Tweets as T WHERE U.UserId = T.UserId 
+			AND T.Sentiment = "positive" group by U.ScreenName 
+			ORDER BY PositiveTweetCount LIMIT 5;
+			''')
+		# If the procedure is executed successfully, then we'll commit the changes and return the success message. 
+		data = cur.fetchall()
+		if(len(data) > 0):
+			tuples = list()
+			for row in data:
+				tuples.append(row)
+			return json.dumps({'success': tuples}, default=decimal_default)
+		else:
+			return json.dumps({'error': "The world is a sad place"})
+	except Exception as e:
+		return json.dumps({'error':str(e)})
+	finally:
+		cur.close()
+		conn.close()
+
+@app.route("/largestPic",methods=['POST','GET'])
+def largestPic():
+	try:
+		#call stored procedure
+		conn = db.connect(host = 'localhost', user="dbproject", passwd="edvictor", db="twitterdata")
+		cur = conn.cursor(db.cursors.DictCursor)
+		cur.execute('''
+			SELECT M.Link as LargestPictureLink 
+			FROM Media as M, (SELECT max(Height*Width) 
+			AS maxArea FROM Media) as Max 
+			WHERE M.Height*M.Width = Max.maxArea;
+			''')
+		# If the procedure is executed successfully, then we'll commit the changes and return the success message. 
+		data = cur.fetchall()
+		if(len(data) > 0):
+			tuples = list()
+			for row in data:
+				tuples.append(row)
+			return json.dumps({'success': tuples}, default=decimal_default)
+		else:
+			return json.dumps({'error': "No pictures available"})
+	except Exception as e:
+		return json.dumps({'error':str(e)})
+	finally:
+		cur.close()
+		conn.close()
+
+@app.route("/hashtagNBA",methods=['POST','GET'])
+def hashtagNBA():
+	try:
+		#call stored procedure
+		conn = db.connect(host = 'localhost', user="dbproject", passwd="edvictor", db="twitterdata")
+		cur = conn.cursor(db.cursors.DictCursor)
+		cur.execute('''
+			SELECT U.ScreenName
+			FROM Media as M, Tweets as T, Users as U, Hashtags as H 
+			WHERE M.TweetId = T.TweetId AND H.TweetId = T.TweetId
+			AND H.Hashtag = "NBA" AND U.UserId = T.UserId;
+			''')
+		# If the procedure is executed successfully, then we'll commit the changes and return the success message. 
+		data = cur.fetchall()
+		if(len(data) > 0):
+			tuples = list()
+			for row in data:
+				tuples.append(row)
+			return json.dumps({'success': tuples}, default=decimal_default)
+		else:
+			return json.dumps({'error': "No pictures with the NBA hashtag"})
+	except Exception as e:
+		return json.dumps({'error':str(e)})
+	finally:
+		cur.close()
+		conn.close()
+
+@app.route("/posBarcelona",methods=['POST','GET'])
+def posBarcelona():
+	try:
+		#call stored procedure
+		conn = db.connect(host = 'localhost', user="dbproject", passwd="edvictor", db="twitterdata")
+		cur = conn.cursor(db.cursors.DictCursor)
+		cur.execute('''
+			SELECT T.Content 
+			FROM Tweets AS T, Hashtags AS H 
+			WHERE T.TweetId = H.TweetId 
+			AND T.Sentiment = "positive" AND H.Hashtag LIKE '%Barcelona%';
+			''')
+		# If the procedure is executed successfully, then we'll commit the changes and return the success message. 
+		data = cur.fetchall()
+		if(len(data) > 0):
+			tuples = list()
+			for row in data:
+				tuples.append(row)
+			return json.dumps({'success': tuples}, default=decimal_default)
+		else:
+			return json.dumps({'error': "No one likes Barcelona"})
 	except Exception as e:
 		return json.dumps({'error':str(e)})
 	finally:

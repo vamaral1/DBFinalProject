@@ -1,21 +1,21 @@
 $(document).ready(function() {
-	var table = $('.webscaleMongo').DataTable()
+	var table = $('.hashtagNBA').DataTable()
 	table.destroy()
 	$.ajax({
-		url: '/webscaleMongo',
+		url: '/hashtagNBA',
 		data: $('form').serialize(),
 		type: 'POST',
 		dataType: 'json',
 		success: function(data){
-			$('.webscaleMongo').remove()
-			$("<table class='webscaleMongo' class='display' cellspacing='0' width='100%'>"
+			$('.hashtagNBA').remove()
+			$("<table class='hashtagNBA' class='display' cellspacing='0' width='100%'>"
 		    +"<thead>"
 		    +"<tr>"
 		    +"<th>ScreenName</th>"
 		    +"</tr>"
 		    +"</thead>"
-		    +"<tbody>").appendTo('#webscaleMongoTable');		
-		    table = $('.webscaleMongo').DataTable({
+		    +"<tbody>").appendTo('#hashtagNBATable');		
+		    table = $('.hashtagNBA').DataTable({
 		    	"data": data.success,
 	    		"columns": [
 			        { "data": "ScreenName" }
