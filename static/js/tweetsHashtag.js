@@ -1,11 +1,14 @@
-$(function(){
-	$('#submit').click(function(){
+$(document).ready(function() {
+	var table = $('.tweetsHashtag').DataTable()
+	$('#tweetsHashtagSubmit').click(function(){
+		table.destroy()
 		$.ajax({
 			url: '/tweetsHashtag',
 			data: $('form').serialize(),
 			type: 'POST',
 			dataType: 'json',
 			success: function(data){
+				$('.tweetsHashtag').remove()
 				$("<table class='tweetsHashtag' class='display' cellspacing='0' width='100%'>"
 			    +"<thead>"
 			    +"<tr>"
@@ -18,8 +21,8 @@ $(function(){
 			    +"<th>Lon</th>"
 			    +"</tr>"
 			    +"</thead>"
-			    +"<tbody>").appendTo('#table-section');		
-			    $('.tweetsHashtag').dataTable({
+			    +"<tbody>").appendTo('#tweetsHashtagTable');		
+			    table = $('.tweetsHashtag').DataTable({
 			    	"data": data.success,
 		    		"columns": [
 				        { "data": "TweetId" },

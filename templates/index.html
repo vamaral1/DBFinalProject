@@ -2,7 +2,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Twitter Streaming App</title>
 
    
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -11,24 +10,120 @@
     <script src="../static/js/jquery-1.11.2.js"></script>
     <script src = "//cdn.datatables.net/1.10.10/js/jquery.dataTables.min.js"></script>
     <script src="../static/js/tweetsHashtag.js"></script>
+    <script src="../static/js/tweetsWord.js"></script>
+    <script src="../static/js/userLongest.js"></script>
+    <script src="../static/js/userSentiment.js"></script>
+    <script src="../static/js/mentionFollowers.js"></script>
+    <script src="../static/js/palindromeUser.js"></script>
+    <script src="../static/js/userLiked.js"></script>
+    <script src="../static/js/webscale.js"></script>
+    <script src="../static/js/userNBA.js"></script>
+    <script src="../static/js/clinton.js"></script>
    
   </head>
 
   <body>
+    <div class = "container">
+      <h3>Twitter Streaming App</h3>
+    </div>
 
     <div class="container">
 
       <div class="get tweets given hashtag">
-        <h3> Look up tweets with the given hashtag: #</h3>
+        <h4> Look up tweets with the given hashtag:</h4>
         <form class="form-ht">
-        <label for="inputName" class="sr-only">Hashtag</label>
-        <input type="name" name="inputName" id="inputName" class="form-control" placeholder="Hashtag" required autofocus>
-        <button id="submit" class="btn btn-lg btn-primary btn-block" type="button" href="/tweetsHashtag">Submit</button>
+        <label for="tweetsHashtagInput" class="sr-only">Hashtag</label>
+        <input type="name" name="tweetsHashtagInput" id="tweetsHashtagInput" class="form-control" placeholder="#hashtag" required autofocus>
+        <button id="tweetsHashtagSubmit" class="btn btn-lg btn-primary btn-block" type="button" href="/tweetsHashtag">Submit</button>
         <div id="container">
-            <div id="table-section">
+            <div id="tweetsHashtagTable">
             </div>
         </div>
       </div>
+
+      <div class="get tweets given word">
+        <h4> Display the top 10 tweets containing the word:</h4>
+        <form class="form-ht">
+        <label for="tweetsWordInput" class="sr-only">tweetsWord</label>
+        <input type="name" name="tweetsWordInput" id="tweetsWordInput" class="form-control" placeholder="word" required autofocus>
+        <button id="tweetsWordSubmit" class="btn btn-lg btn-primary btn-block" type="button" href="/tweetsWord">Submit</button>
+        <div id="container">
+            <div id="tweetsWordTable">
+            </div>
+        </div>
+      </div>
+
+      <div class="find user longest tweet">
+        <h4> Find all users who have over a specified amount of tweets and return their longest tweet:</h4>
+        <form class="form-ht">
+        <label for="userLongestInput" class="sr-only">userLongest</label>
+        <input type="name" name="userLongestInput" id="userLongestInput" class="form-control" placeholder="count" required autofocus>
+        <button id="userLongestSubmit" class="btn btn-lg btn-primary btn-block" type="button" href="/userLongest">Submit</button>
+        <div id="container">
+            <div id="userLongestTable">
+            </div>
+        </div>
+      </div>
+
+      <div class="find user sentiment">
+        <h4> Find the sentiment for user tweets:</h4>
+        <form class="form-ht">
+        <label for="userSentimentInput" class="sr-only">userSentiment</label>
+        <input type="name" name="userSentimentInput" id="userSentimentInput" class="form-control" placeholder="@user" required autofocus>
+        <button id="userSentimentSubmit" class="btn btn-lg btn-primary btn-block" type="button" href="/userSentiment">Submit</button>
+        <div id="container">
+            <div id="userSentimentTable">
+            </div>
+        </div>
+      </div>
+
+      <div class="mention followers">
+        <h4> Determine the account of the person mentioned the most on reposts from their followers. Include the tweet content as well</h4>
+        <div id="container">
+            <div id="mentionFollowersTable" href="/mentionFollowers">
+            </div>
+        </div>
+      </div>
+
+      <div class="palindrome user">
+        <h4> Find all users who have created a tweet with a palindrome ID & display their total number of tweets</h4>
+        <div id="container">
+            <div id="palindromeUserTable" href="/palindromeUser">
+            </div>
+        </div>
+      </div>
+
+      <div class="user liked most">
+        <h4> Return the hashtags used by the user who has liked the most posts</h4>
+        <div id="container">
+            <div id="userLikedTable" href="/userLiked">
+            </div>
+        </div>
+      </div>
+
+      <div class="user NBA">
+        <h4>Find all tweets posted by someone who has the “NBA” text pattern in their username</h4>
+        <div id="container">
+            <div id="userNBATable" href="/userNBA">
+            </div>
+        </div>
+      </div>
+
+<!--       <div class="clinton">
+        <h4>Find the percentage of tweets with the “Clinton” hashtag that have positive sentiment</h4>
+        <div id="container">
+            <div id="clintonTable" href="/clinton">
+            </div>
+        </div>
+      </div> -->
+
+<!--       <div class="mongodb or webscale">
+        <h4> Find the users who have their username, any tweets, or any hashtags with the "mongo db" or "webscale" text patterns in them</h4>
+        <div id="container">
+            <div id="webscaleTable" href="/webscale">
+            </div>
+        </div>
+      </div> -->
 
       <footer class="footer">
         <p>&copy; Victor Amaral, Ed Schembor</p>
