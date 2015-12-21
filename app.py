@@ -18,10 +18,13 @@ def tweetsHashtag():
 		cur.callproc('FindTweetsGivenHashTag', (hashtag,))
 		# If the procedure is executed successfully, then we'll commit the changes and return the success message. 
 		data = cur.fetchall()
-		tuples = list()
-		for row in data:
-			tuples.append(row)
-		return json.dumps({'success': tuples})
+		if(len(data) > 0):
+			tuples = list()
+			for row in data:
+				tuples.append(row)
+			return json.dumps({'success': tuples})
+		else:
+			return json.dumps({'error': "The hashtag does not exist"})
 	except Exception as e:
 		return json.dumps({'error':str(e)})
 	finally:
