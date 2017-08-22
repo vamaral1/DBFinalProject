@@ -1,11 +1,11 @@
-#DBFinalProject
+# DBFinalProject
 
-##Authors:
+## Authors:
 Victor Amaral
 
 Edward Schembor
 
-##Setting up the database
+## Setting up the database
 We initialized an AWS EC2 instance (which is now terminated) and installed MySQL
 
 A MySQL account has already been created on the instance but if needed, this is how to do it:
