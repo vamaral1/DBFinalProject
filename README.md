@@ -1,5 +1,7 @@
 # DBFinalProject
 
+Streaming twitter data to database with front-end to query certain topics
+
 ## Authors:
 Victor Amaral
 
